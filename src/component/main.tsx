@@ -2,7 +2,7 @@ import React,{useState,useMemo} from 'react'
 import * as S from '../styles/main'
 import TodoItem from './todoItem'
 import { useDispatch, useSelector } from "react-redux";
-import {TodoItemDataParams,actionCreators as todoAction} from '../module/todo'
+import {actionCreators as todoAction} from '../module/todo'
 import {rootReducer}from '../store'
 
 
@@ -11,11 +11,9 @@ const Main:React.FC=()=>{
     const store=useSelector((store:ReturnType<typeof rootReducer>)=>store.todoReducer);
     const dispatch = useDispatch();
 
-    const onToggle=(id:number)=>{dispatch(todoAction.toggle(id))}
-    const onRemove=(id:number)=>{dispatch(todoAction.remove(id))}
-    const onCreate=(text:string)=>{dispatch(todoAction.create(text))}
-
-    console.log(store)
+    const onToggle=(id:number)=>{dispatch(todoAction.toggleTodo(id))}
+    const onRemove=(id:number)=>{dispatch(todoAction.removeTodo(id))}
+    const onCreate=(text:string)=>{dispatch(todoAction.createTodo(text))}
 
     const todoItemList=store.todoItems.map(todo=>
         todo?(

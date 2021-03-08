@@ -1,3 +1,6 @@
+import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
+
+
 export interface TodoItemDataParams{
     id:number;
     text:string;
@@ -8,67 +11,27 @@ interface TodoState{
     todoItems:TodoItemDataParams[];
 }
 
-const CREATE="todo/CREATE";
-const REMOVE="todo/REMOVE";
-const TOGGLE="todo/TOGGLE";
 
-interface CreateAction{
-    type:typeof CREATE;
-    payload:TodoItemDataParams;
-}
-interface RemoveAction{
-    type:typeof REMOVE;
-    meta:{
-        id:number
-    }
-}
-interface ToggleAction{
-    type:typeof TOGGLE;
-    meta:{
-        id:number
-    }
-}
-
-
-export type TodoActionTypes=
-|CreateAction
-|RemoveAction
-|ToggleAction;
 let autoId=0;
 
 
-const create=(text:string)=>{
-    return{
-        type:CREATE,
-        payload:{
-            id:autoId++,
-            text:text,
-            isChecked:false
-        }
-    }
-}
 
-const remove=(id:number)=>{
-    return{
-        type:REMOVE,
-        meta:{
-            id
-        }
-    }
-}
-const toggle=(id:number)=>{
-    return{
-        type:TOGGLE,
-        meta:{
-            id
-        }
-    }
-}
+const createTodo=createAction<string>("CREATE");
+const removeTodo=createAction<number>("REMOVE");
+const toggleTodo=createAction<number>("TOGGLE");
+
+
+
+
+export type TodoActionTypes=
+|PayloadAction<string>
+|PayloadAction<number>;
+
 
 export const actionCreators={
-    create,
-    toggle,
-    remove,
+    createTodo,
+    toggleTodo,
+    removeTodo,
 }
 
 
@@ -78,22 +41,35 @@ const initalState:TodoState={
 
  const todoReducer=(state=initalState,action:TodoActionTypes):TodoState=>{
     switch(action.type){
-        case CREATE:
+        case createTodo.type:
+            const todoItems=state.todoItems;
+            todoItems.push({
+                id:autoId++,
+                text:action.payload as string ,
+                isChecked:false
+            })
             return{
-                todoItems:[...state.todoItems,action.payload]
+                todoItems:[...state.todoItems,]
             }
-        case REMOVE:
+        case removeTodo.type:
             return{
                 ...state,
-                todoItems:state.todoItems.filter(todo=>todo.id!==action.meta.id)
+                todoItems:state.todoItems.filter(todo=>todo.id!==action.payload)
             }
-        case TOGGLE:
+        case toggleTodo.type:
             return{
                 ...state,
-                todoItems:state.todoItems.map(todo=>{if(todo.id===action.meta.id){todo.isChecked=!todo.isChecked}return todo;})
+                todoItems:state.todoItems.map(todo=>{if(todo.id===action.payload){todo.isChecked=!todo.isChecked}return todo;})
             }
         default: return state
     }
 }
+
+// const todoReducer=createReducer(initalState,{
+//     [createTodo.type]:(state:TodoState,action:PayloadAction<string>)=>{state.todoItems.push({id:autoId++,text:action.payload,isChecked:false})},
+//     [toggleTodo.type]:(state:TodoState,action:PayloadAction<number>)=>{state.todoItems.filter(todo=>todo.id!==action.payload)},
+//     [removeTodo.type]:(state:TodoState,action:PayloadAction<number>)=>{state.todoItems.map(todo=>{if(todo.id===action.payload){todo.isChecked=!todo.isChecked}return todo})}
+// })
+
 
 export default todoReducer
