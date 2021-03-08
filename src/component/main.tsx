@@ -30,7 +30,7 @@ const Main:React.FC=()=>{
 
     return(
             <S.Container>
-                <S.globalStyle/>
+                <S.GlobalStyle/>
                 <S.Title>TO DO LIST</S.Title>
                 <S.InputField>
                     <S.Input value={text} onChange={e=>setText(e.target.value)}/>

@@ -1,4 +1,4 @@
-import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
+import { createAction,  PayloadAction } from "@reduxjs/toolkit";
 
 
 export interface TodoItemDataParams{

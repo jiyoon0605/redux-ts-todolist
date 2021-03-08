@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import style, {createGlobalStyle }from'styled-components'
 
-const globalStyle=createGlobalStyle`
+const GlobalStyle=createGlobalStyle`
 body{
     @font-face {
     font-family: 'ELAND_Choice_B';
@@ -73,4 +73,4 @@ flex-direction:column;
 align-items:center;
 justify-content:center
 `
-export {globalStyle,Title,InputField,Input,SubmitBtn,CountText,Container}
+export {GlobalStyle,Title,InputField,Input,SubmitBtn,CountText,Container}
