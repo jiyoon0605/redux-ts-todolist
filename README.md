@@ -3,4 +3,4 @@
 ### 사용 기술
 - react
 - typescript
-- redux
+- redux & redux toolkit
